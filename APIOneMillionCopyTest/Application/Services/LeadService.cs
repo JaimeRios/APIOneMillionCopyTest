@@ -28,5 +28,10 @@ namespace APIOneMillionCopyTest.Application.Services
                 data
             };
         }
+
+        public Task<Lead?> GetByIdAsync(int id)
+        {
+            return _leadRepository.GetByIdAsync(id);
+        }
     }
 }

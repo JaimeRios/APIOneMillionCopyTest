@@ -24,6 +24,14 @@ namespace APIOneMillionCopyTest.API.Controllers
 
         }
 
+        [HttpGet(":id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var lead = await _leadService.GetByIdAsync(id);
+            if (lead == null)
+                return NotFound();
+            return Ok(lead);
+        }
 
     }
 }

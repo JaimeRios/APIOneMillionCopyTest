@@ -45,5 +45,11 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
 
             return (data, total);
         }
+
+        public async Task<Lead?> GetByIdAsync(int id)
+        {
+            return await _context.Leads
+                .FirstOrDefaultAsync(l => l.Id == id);
+        }
     }
 }

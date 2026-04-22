@@ -6,5 +6,7 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
     public interface ILeadRepository
     {
         Task<(List<Lead>, int)> GetAsync(LeadQueryParams query);
+        
+        Task<Lead?> GetByIdAsync(int id); 
     }
 }
