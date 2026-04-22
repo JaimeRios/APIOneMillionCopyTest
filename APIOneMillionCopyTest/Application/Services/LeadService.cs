@@ -89,5 +89,10 @@ namespace APIOneMillionCopyTest.Application.Services
             return true;
 
         }
+
+        public async Task<LeadStats> GetLeadStatsAsync()
+        {
+            return await _leadRepository.GetStatsAsync();
+        }
     }
 }

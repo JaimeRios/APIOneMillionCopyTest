@@ -12,5 +12,7 @@ namespace APIOneMillionCopyTest.Application.Services
 
         Task<bool> UpdateAsync(int id, UpdateLeadDto dto);
 
+        Task<LeadStats> GetLeadStatsAsync();
+
     }
 }

@@ -64,6 +64,32 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
+        public async Task<LeadStats> GetStatsAsync()
+        {
+            var totalLeads = await _context.Leads.CountAsync();
+
+            var leadsPorFuente = await _context.Leads
+                .GroupBy(l => l.Fuente)
+                .Select(g => new { Fuente = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.Fuente, x => x.Count);
+
+            var promedioPresupuesto = await _context.Leads
+                .Where(l => l.Presupuesto.HasValue)
+                .AverageAsync(l => l.Presupuesto.Value);
+
+            var hace7Dias = DateTime.UtcNow.AddDays(-7);
+
+            var leadsUltimos7Dias = _context.Leads.Where(l => l.CreatedAt >= hace7Dias).ToList();
+
+            return new LeadStats
+            {
+                TotalLeads = totalLeads,
+                LeadsPorFuente = leadsPorFuente,
+                PromedioPresupuesto = promedioPresupuesto,
+                LeadsUltimos7Dias = leadsUltimos7Dias
+            };
+        }
+
         public async Task Update(Lead lead)
         {
             _context.Leads.Update(lead);

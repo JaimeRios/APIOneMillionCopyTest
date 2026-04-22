@@ -36,10 +36,10 @@ namespace APIOneMillionCopyTest.API.Controllers
 
         [HttpPatch(":id")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateLeadDto dto)
-        {  
+        {
             var isUpdate = await _leadService.UpdateAsync(id, dto);
-            
-            if(!isUpdate)
+
+            if (!isUpdate)
                 return NotFound();
 
             return NoContent();
@@ -49,10 +49,18 @@ namespace APIOneMillionCopyTest.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var isDelete = await _leadService.DeleteAsync(id);
-            if(!isDelete)
+            if (!isDelete)
                 return NotFound();
 
             return NoContent();
+        }
+
+        [HttpGet("/leads/stats")]
+        public async Task<IActionResult> GetLeadsStats()
+        {
+            var statsResult = await _leadService.GetLeadStatsAsync();
+
+            return Ok(statsResult);
         }
 
     }

@@ -12,6 +12,8 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
 
         Task<Lead?> GetByIdAsync(int id);
 
+        Task<LeadStats> GetStatsAsync();
+
         Task Update(Lead lead);
     }
 }
