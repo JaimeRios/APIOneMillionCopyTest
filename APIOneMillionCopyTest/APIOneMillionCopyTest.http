@@ -1,0 +1,6 @@
+@APIOneMillionCopyTest_HostAddress = http://localhost:5032
+
+GET {{APIOneMillionCopyTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
