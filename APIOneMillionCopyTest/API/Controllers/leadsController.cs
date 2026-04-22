@@ -37,9 +37,19 @@ namespace APIOneMillionCopyTest.API.Controllers
         [HttpPatch(":id")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateLeadDto dto)
         {  
-            var update = await _leadService.UpdateAsync(id, dto);
+            var isUpdate = await _leadService.UpdateAsync(id, dto);
             
-            if(!update)
+            if(!isUpdate)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpDelete(":id")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var isDelete = await _leadService.DeleteAsync(id);
+            if(!isDelete)
                 return NotFound();
 
             return NoContent();

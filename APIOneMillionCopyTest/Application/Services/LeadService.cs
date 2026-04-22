@@ -14,6 +14,19 @@ namespace APIOneMillionCopyTest.Application.Services
         {
             _leadRepository = leadRepository;
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var lead = await _leadRepository.GetByIdAsync(id);
+
+            if (lead == null)
+                return false;
+
+            await _leadRepository.Delete(lead);
+
+            return true;
+        }
+
         public async Task<PagedResult<Lead>> GetAsync(LeadQueryParams query)
         {
             query.Page = query.Page < 1 ? 1 : query.Page;

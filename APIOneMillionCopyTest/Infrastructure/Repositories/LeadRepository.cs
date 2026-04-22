@@ -14,6 +14,12 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task Delete(Lead lead)
+        {
+            _context.Leads.Remove(lead);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<(List<Lead>, int)> GetAsync(LeadQueryParams query)
         {
             var leadsQuery = _context.Leads.AsQueryable();

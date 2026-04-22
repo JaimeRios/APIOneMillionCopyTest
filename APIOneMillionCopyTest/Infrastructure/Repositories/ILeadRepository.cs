@@ -5,6 +5,7 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
 {
     public interface ILeadRepository
     {
+        Task Delete(Lead lead);
         Task<(List<Lead>, int)> GetAsync(LeadQueryParams query);
 
         Task<Lead?> GetByEmailAsync(string email);

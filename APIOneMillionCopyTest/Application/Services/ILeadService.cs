@@ -5,6 +5,7 @@ namespace APIOneMillionCopyTest.Application.Services
 {
     public interface ILeadService
     {
+        Task<bool> DeleteAsync(int id);
         Task<PagedResult<Lead>> GetAsync(LeadQueryParams query);
 
         Task<Lead?> GetByIdAsync(int id);
