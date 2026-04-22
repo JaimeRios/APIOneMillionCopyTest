@@ -5,9 +5,11 @@ namespace APIOneMillionCopyTest.Application.Services
 {
     public interface ILeadService
     {
-        Task<object> GetAsync(LeadQueryParams query);
+        Task<PagedResult<Lead>> GetAsync(LeadQueryParams query);
 
         Task<Lead?> GetByIdAsync(int id);
+
+        Task<bool> UpdateAsync(int id, UpdateLeadDto dto);
 
     }
 }

@@ -46,10 +46,22 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
             return (data, total);
         }
 
+        public async Task<Lead?> GetByEmailAsync(string email)
+        {
+            return await _context.Leads
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<Lead?> GetByIdAsync(int id)
         {
             return await _context.Leads
                 .FirstOrDefaultAsync(l => l.Id == id);
+        }
+
+        public async Task Update(Lead lead)
+        {
+            _context.Leads.Update(lead);
+            await _context.SaveChangesAsync();
         }
     }
 }

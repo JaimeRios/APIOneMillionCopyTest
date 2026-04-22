@@ -2,6 +2,7 @@
 using APIOneMillionCopyTest.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace APIOneMillionCopyTest.API.Controllers
 {
@@ -31,6 +32,17 @@ namespace APIOneMillionCopyTest.API.Controllers
             if (lead == null)
                 return NotFound();
             return Ok(lead);
+        }
+
+        [HttpPatch(":id")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateLeadDto dto)
+        {  
+            var update = await _leadService.UpdateAsync(id, dto);
+            
+            if(!update)
+                return NotFound();
+
+            return NoContent();
         }
 
     }

@@ -1,3 +1,4 @@
+using APIOneMillionCopyTest.API.Filters;
 using APIOneMillionCopyTest.Application.Services;
 using APIOneMillionCopyTest.Infrastructure.Persistence;
 using APIOneMillionCopyTest.Infrastructure.Repositories;
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilter>();
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
