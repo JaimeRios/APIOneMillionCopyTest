@@ -12,6 +12,8 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
 
         Task<Lead?> GetByIdAsync(int id);
 
+        Task<List<Lead>> GetFilteredAsync(string? fuente, DateTime? from, DateTime? to);
+
         Task<LeadStats> GetStatsAsync();
 
         Task Update(Lead lead);

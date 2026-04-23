@@ -3,6 +3,7 @@ using APIOneMillionCopyTest.Domain.Entities;
 using APIOneMillionCopyTest.Domain.Enums;
 using APIOneMillionCopyTest.Domain.Exceptions;
 using APIOneMillionCopyTest.Infrastructure.Repositories;
+using System.Text.Json;
 
 namespace APIOneMillionCopyTest.Application.Services
 {
@@ -10,9 +11,12 @@ namespace APIOneMillionCopyTest.Application.Services
     {
         private readonly ILeadRepository _leadRepository;
 
-        public LeadService(ILeadRepository leadRepository)
+        private readonly IAIService _aIService;
+
+        public LeadService(ILeadRepository leadRepository, IAIService aIService)
         {
             _leadRepository = leadRepository;
+            _aIService = aIService;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -93,6 +97,53 @@ namespace APIOneMillionCopyTest.Application.Services
         public async Task<LeadStats> GetLeadStatsAsync()
         {
             return await _leadRepository.GetStatsAsync();
+        }
+
+        public async Task<string> GetAISummaryAsync(string? fuente, DateTime? from, DateTime? to)
+        {
+            var leads = await _leadRepository.GetFilteredAsync(fuente, from, to);
+
+            var prompt = $@"
+Eres un analista de datos experto en marketing y generación de leads.
+
+A continuación recibirás una lista de leads con la siguiente información:
+- nombre
+- email
+- fuente (canal de adquisición)
+- presupuesto
+- fecha de creación
+
+Tu tarea es generar un resumen ejecutivo claro y conciso dirigido a un equipo de negocio.
+
+El resumen debe incluir:
+
+1. Análisis general:
+   - Cantidad total de leads
+   - Tendencias relevantes (si hay muchas fuentes o variaciones)
+   - Comportamiento general de los datos
+
+2. Fuente principal:
+   - Identificar cuál es el canal con mayor cantidad de leads
+   - Explicar brevemente su relevancia
+
+3. Recomendaciones:
+   - Sugerencias estratégicas basadas en los datos
+   - Oportunidades de mejora
+   - Posibles acciones a tomar
+
+Reglas:
+- Responde en español
+- Sé claro, profesional y directo
+- Usa formato estructurado
+- No inventes datos, solo usa la información proporcionada
+- Si no hay suficientes datos, indícalo claramente
+
+Datos:
+{JsonSerializer.Serialize(leads)}
+";
+
+
+            return await _aIService.GenerateSummaryAsync(leads, prompt);
         }
     }
 }

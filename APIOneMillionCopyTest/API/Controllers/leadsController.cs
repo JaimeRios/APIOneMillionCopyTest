@@ -63,5 +63,14 @@ namespace APIOneMillionCopyTest.API.Controllers
             return Ok(statsResult);
         }
 
+        [HttpGet("/leads/ai/summary")]
+        public async Task<IActionResult> GetAISummary([FromQuery] string? fuente, DateTime? from, DateTime? to)
+        {
+            var summary = await _leadService.GetAISummaryAsync(fuente, from, to);
+
+            return Ok(summary);
+        }
+
+
     }
 }

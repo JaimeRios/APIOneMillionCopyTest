@@ -64,6 +64,23 @@ namespace APIOneMillionCopyTest.Infrastructure.Repositories
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
+        public async Task<List<Lead>> GetFilteredAsync(string? fuente, DateTime? from, DateTime? to)
+        {
+            var query = _context.Leads.AsQueryable();
+
+            if (!string.IsNullOrEmpty(fuente))
+                query = query.Where(l => l.Fuente == fuente);
+
+            if (from.HasValue)
+                query = query.Where(l => l.CreatedAt >= from.Value);
+
+            if (to.HasValue)
+                query = query.Where(l => l.CreatedAt <= to.Value);
+
+            return await query.ToListAsync();
+        }
+
+
         public async Task<LeadStats> GetStatsAsync()
         {
             var totalLeads = await _context.Leads.CountAsync();

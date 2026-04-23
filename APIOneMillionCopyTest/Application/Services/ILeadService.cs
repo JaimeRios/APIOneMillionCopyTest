@@ -14,5 +14,7 @@ namespace APIOneMillionCopyTest.Application.Services
 
         Task<LeadStats> GetLeadStatsAsync();
 
+        Task<string> GetAISummaryAsync(string? fuente, DateTime? from, DateTime? to);
+
     }
 }
